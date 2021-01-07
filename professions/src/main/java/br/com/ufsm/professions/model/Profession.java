@@ -16,10 +16,10 @@ public class Profession {
 	private String name;
 	private String area;
 	@Enumerated(EnumType.STRING)
-	private SectorProfession status = SectorProfession.PRIVADO;
+	private SectorProfession sector;
 	@ManyToOne
 	private Title title;
-
+	
 	
 	public Profession() {
 		super();
@@ -81,12 +81,12 @@ public class Profession {
 		this.area = area;
 	}
 
-	public SectorProfession getStatus() {
-		return status;
+	public SectorProfession getSector() {
+		return sector;
 	}
 
-	public void setStatus(SectorProfession status) {
-		this.status = status;
+	public void setSector(SectorProfession sector) {
+		this.sector = sector;
 	}
 
 	public Title getTitle() {

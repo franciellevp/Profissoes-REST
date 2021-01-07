@@ -9,12 +9,14 @@ public class ProfessionDetailDto {
 	private String name;
 	private String area;
 	private SectorProfession sector;
+	private String title;
 	
 	public ProfessionDetailDto (Profession profession) {
 		this.idProfession = profession.getIdProfession();
 		this.name = profession.getName();
 		this.area = profession.getArea();
-		this.sector = profession.getStatus();
+		this.sector = profession.getSector();
+		this.title = new TitleDto(profession.getTitle()).getName();
 	}
 
 	public Long getIdProfession() {
@@ -47,5 +49,13 @@ public class ProfessionDetailDto {
 
 	public void setSector(SectorProfession sector) {
 		this.sector = sector;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

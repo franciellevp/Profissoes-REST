@@ -1,7 +1,5 @@
 package br.com.ufsm.professions.controller.form;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -15,13 +13,14 @@ import br.com.ufsm.professions.repository.TitleRepository;
 
 public class ProfessionForm {
 
-	@NotNull @NotEmpty @Length(min = 10)
+	@NotNull @NotEmpty @Length(min = 5)
 	private String name;
 	@NotNull @NotEmpty @Length(min = 5)
 	private String area;
 	@NotNull
 	private Long idTitle;
-	private SectorProfession status = SectorProfession.PRIVADO;
+	@NotNull
+	private SectorProfession sector = SectorProfession.PRIVADO;
 
 	public String getName() {
 		return name;
@@ -56,7 +55,7 @@ public class ProfessionForm {
 		Profession prof = profRepo.getOne(id);
 		prof.setName(this.name);
 		prof.setArea(this.area);
-		prof.setStatus(this.status);
+		prof.setSector(this.sector);
 		prof.setTitle(titleRepo.getOne(id));
 		return prof;
 	}

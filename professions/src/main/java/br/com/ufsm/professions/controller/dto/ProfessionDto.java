@@ -3,14 +3,18 @@ package br.com.ufsm.professions.controller.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import br.com.ufsm.professions.model.Profession;
+import br.com.ufsm.professions.model.SectorProfession;
 
 public class ProfessionDto {
 	private Long idProfession;
 	private String name;
 	private String area;
 	private String title;
-	
+
 	public ProfessionDto (Profession profession) {
 		this.idProfession = profession.getIdProfession();
 		this.name = profession.getName();

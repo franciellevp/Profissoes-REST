@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +43,9 @@ public class ProfessionsController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ProfessionDetailDto> detail (@PathVariable Long id) {
-		Optional<Profession> top = profRepo.findById(id);
-		if (top.isPresent()) {
-			return ResponseEntity.ok(new ProfessionDetailDto(top.get()));
+		Optional<Profession> prof = profRepo.findById(id);
+		if (prof.isPresent()) {
+			return ResponseEntity.ok(new ProfessionDetailDto(prof.get()));
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -60,11 +61,22 @@ public class ProfessionsController {
 	
 	@PutMapping("{id}")
 	@Transactional
-	public ResponseEntity<ProfessionDto> update (@PathVariable Long id, @RequestBody @Valid ProfessionForm form) {
+	public ResponseEntity<ProfessionDetailDto> update (@PathVariable Long id, @RequestBody @Valid ProfessionForm form) {
 		Optional<Profession> op = profRepo.findById(id);
 		if (op.isPresent()) {
 			Profession prof = form.update(id, profRepo, titleRepo);
-			return ResponseEntity.ok(new ProfessionDto(prof));
+			return ResponseEntity.ok(new ProfessionDetailDto(prof));
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("{id}")
+	@Transactional
+	public ResponseEntity<?> delete (@PathVariable Long id) {
+		Optional<Profession> op = profRepo.findById(id);
+		if (op.isPresent()) {
+			profRepo.deleteById(id);
+			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
 	}
