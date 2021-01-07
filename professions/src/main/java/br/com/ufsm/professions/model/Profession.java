@@ -1,15 +1,12 @@
 package br.com.ufsm.professions.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Profession {
@@ -20,19 +17,19 @@ public class Profession {
 	private String area;
 	@Enumerated(EnumType.STRING)
 	private SectorProfession status = SectorProfession.PRIVADO;
-	@OneToMany(mappedBy = "profession") // 1 topico -> n respostas
-	// na classe resposta ta mapeado o relacionamento com o 'topico' (atributo da classe Resposta)
-	private List<Title> titles = new ArrayList<>();
+	@ManyToOne
+	private Title title;
 
 	
 	public Profession() {
 		super();
 	}
 
-	public Profession(String name, String area) {
+	public Profession(String name, String area, Title title) {
 		super();
 		this.name = name;
 		this.area = area;
+		this.title = title;
 	}
 
 	@Override
@@ -92,11 +89,11 @@ public class Profession {
 		this.status = status;
 	}
 
-	public List<Title> getTitles() {
-		return titles;
+	public Title getTitle() {
+		return title;
 	}
 
-	public void setTitles(List<Title> titles) {
-		this.titles = titles;
+	public void setTitle(Title title) {
+		this.title = title;
 	}	
 }

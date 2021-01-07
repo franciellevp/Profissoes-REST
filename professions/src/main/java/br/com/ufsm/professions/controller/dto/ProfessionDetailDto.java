@@ -1,9 +1,5 @@
 package br.com.ufsm.professions.controller.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import br.com.ufsm.professions.model.SectorProfession;
 import br.com.ufsm.professions.model.Profession;
 
@@ -13,15 +9,12 @@ public class ProfessionDetailDto {
 	private String name;
 	private String area;
 	private SectorProfession sector;
-	private List<TitlesDto> titles;
 	
 	public ProfessionDetailDto (Profession profession) {
 		this.idProfession = profession.getIdProfession();
 		this.name = profession.getName();
 		this.area = profession.getArea();
 		this.sector = profession.getStatus();
-		this.titles = new ArrayList<TitlesDto>();
-		this.titles.addAll(profession.getTitles().stream().map(TitlesDto::new).collect(Collectors.toList()));
 	}
 
 	public Long getIdProfession() {
@@ -54,13 +47,5 @@ public class ProfessionDetailDto {
 
 	public void setSector(SectorProfession sector) {
 		this.sector = sector;
-	}
-
-	public List<TitlesDto> getTitles() {
-		return titles;
-	}
-
-	public void setTitles(List<TitlesDto> titles) {
-		this.titles = titles;
 	}
 }

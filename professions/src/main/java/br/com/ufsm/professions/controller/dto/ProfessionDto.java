@@ -9,11 +9,13 @@ public class ProfessionDto {
 	private Long idProfession;
 	private String name;
 	private String area;
+	private String title;
 	
 	public ProfessionDto (Profession profession) {
 		this.idProfession = profession.getIdProfession();
 		this.name = profession.getName();
 		this.area = profession.getArea();
+		this.title = new TitleDto(profession.getTitle()).getName();
 	}
 	
 	public Long getIdProfession() {
@@ -39,6 +41,14 @@ public class ProfessionDto {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public static List<ProfessionDto> convert(List<Profession> profession) {
