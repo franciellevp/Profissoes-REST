@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class Profession {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idProfession;
+	private Long idProfession;
 	private String name;
 	private String area;
 	@Enumerated(EnumType.STRING)
@@ -60,11 +60,11 @@ public class Profession {
 		return true;
 	}
 
-	public Integer getIdProfession() {
+	public Long getIdProfession() {
 		return idProfession;
 	}
 
-	public void setIdProfession(Integer idProfession) {
+	public void setIdProfession(Long idProfession) {
 		this.idProfession = idProfession;
 	}
 
