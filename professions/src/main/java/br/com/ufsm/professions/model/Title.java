@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Title {
@@ -12,8 +11,6 @@ public class Title {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idTitle;
 	private String name;
-	@ManyToOne
-	private Profession profession;
 
 	@Override
 	public int hashCode() {
@@ -54,13 +51,5 @@ public class Title {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Profession getProfession() {
-		return profession;
-	}
-
-	public void setProfession(Profession profession) {
-		this.profession = profession;
 	}
 }

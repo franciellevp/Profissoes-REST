@@ -2,11 +2,11 @@ package br.com.ufsm.professions.controller.dto;
 
 import br.com.ufsm.professions.model.Title;
 
-public class TitlesDto {
+public class TitleDto {
 	private Long idTitle;
 	private String name;
 	
-	public TitlesDto(Title title) {
+	public TitleDto(Title title) {
 		this.idTitle = title.getIdTitle();
 		this.name = title.getName();
 	}

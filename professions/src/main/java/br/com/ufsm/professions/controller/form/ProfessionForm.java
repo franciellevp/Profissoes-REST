@@ -15,8 +15,8 @@ public class ProfessionForm {
 	private String name;
 	@NotNull @NotEmpty @Length(min = 10)
 	private String area;
-	@NotNull @NotEmpty @Length(min = 10)
-	private Title title;
+	@NotNull
+	private Long idTitle;
 
 	public String getName() {
 		return name;
@@ -30,21 +30,20 @@ public class ProfessionForm {
 		return area;
 	}
 
-
-
 	public void setArea(String area) {
 		this.area = area;
 	}
 
-	public Title getTitle() {
-		return title;
+	public Long getIdTitle() {
+		return idTitle;
 	}
 
-	public void setTitle(Title title) {
-		this.title = title;
+	public void setIdTitle(Long idTitle) {
+		this.idTitle = idTitle;
 	}
 
-	public Profession convert(TitleRepository cp) {
-		return new Profession(name, area);
+	public Profession convert(TitleRepository titleRepo, Long id) {
+		Title title = titleRepo.getOne(id);
+		return new Profession(name, area, title);
 	}
 }
