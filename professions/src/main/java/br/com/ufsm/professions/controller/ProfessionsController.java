@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.ufsm.professions.controller.dto.ProfessionDetailDto;
 import br.com.ufsm.professions.controller.dto.ProfessionDto;
-import br.com.ufsm.professions.controller.dto.TitleDto;
 import br.com.ufsm.professions.controller.form.ProfessionForm;
 import br.com.ufsm.professions.model.Profession;
-import br.com.ufsm.professions.model.Title;
 import br.com.ufsm.professions.repository.TitleRepository;
 import br.com.ufsm.professions.repository.ProfessionRepository;
 
@@ -52,10 +51,21 @@ public class ProfessionsController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<ProfessionDto> cadastrar (@RequestBody @Valid ProfessionForm profForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<ProfessionDto> register (@RequestBody @Valid ProfessionForm profForm, UriComponentsBuilder uriBuilder) {
 		Profession prof = profForm.convert(titleRepo, profForm.getIdTitle());
 		profRepo.save(prof);
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(prof.getIdProfession()).toUri();
 		return ResponseEntity.created(uri).body(new ProfessionDto(prof));
+	}
+	
+	@PutMapping("{id}")
+	@Transactional
+	public ResponseEntity<ProfessionDto> update (@PathVariable Long id, @RequestBody @Valid ProfessionForm form) {
+		Optional<Profession> op = profRepo.findById(id);
+		if (op.isPresent()) {
+			Profession prof = form.update(id, profRepo, titleRepo);
+			return ResponseEntity.ok(new ProfessionDto(prof));
+		}
+		return ResponseEntity.notFound().build();
 	}
 }
