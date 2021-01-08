@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.6
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=compasso_professions
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./docker/volume_mysql:/var/lib/mysql
+
+  professions:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: compasso_professions/api
+    ports:
+      - '8008:8008'
+      - '5005:5005'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://compasso_professions:3306/database?autoReconnect=true&useSSL=false
+    depends_on:
+       - db
+    links:
+      - db
+      
+     
