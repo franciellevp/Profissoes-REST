@@ -54,6 +54,8 @@ public class ProfessionsController {
 	@Transactional
 	public ResponseEntity<ProfessionDto> register (@RequestBody @Valid ProfessionForm profForm, UriComponentsBuilder uriBuilder) {
 		Profession prof = profForm.convert(titleRepo, profForm.getIdTitle());
+		if (prof == null)
+			return ResponseEntity.badRequest().build();
 		profRepo.save(prof);
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(prof.getIdProfession()).toUri();
 		return ResponseEntity.created(uri).body(new ProfessionDto(prof));
@@ -65,7 +67,9 @@ public class ProfessionsController {
 		Optional<Profession> op = profRepo.findById(id);
 		if (op.isPresent()) {
 			Profession prof = form.update(id, profRepo, titleRepo);
-			return ResponseEntity.ok(new ProfessionDetailDto(prof));
+			if (prof != null)
+				return ResponseEntity.ok(new ProfessionDetailDto(prof));
+			return ResponseEntity.badRequest().build();
 		}
 		return ResponseEntity.notFound().build();
 	}

@@ -1,5 +1,7 @@
 package br.com.ufsm.professions.controller.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +22,7 @@ public class ProfessionForm {
 	@NotNull
 	private Long idTitle;
 	@NotNull
-	private SectorProfession sector = SectorProfession.PRIVADO;
+	private SectorProfession sector;
 
 	public String getName() {
 		return name;
@@ -45,18 +47,33 @@ public class ProfessionForm {
 	public void setIdTitle(Long idTitle) {
 		this.idTitle = idTitle;
 	}
+	
+	public SectorProfession getSector() {
+		return sector;
+	}
+
+	public void setSector(SectorProfession sector) {
+		this.sector = sector;
+	}
 
 	public Profession convert(TitleRepository titleRepo, Long id) {
-		Title title = titleRepo.getOne(id);
-		return new Profession(name, area, title);
+		Optional<Title> title = titleRepo.findById(id);
+		if (title.isPresent()) {
+			return new Profession(name, area, title.get(), sector.toString());
+		}
+		return null;
 	}
 	
 	public Profession update(Long id, ProfessionRepository profRepo, TitleRepository titleRepo) {
 		Profession prof = profRepo.getOne(id);
-		prof.setName(this.name);
-		prof.setArea(this.area);
-		prof.setSector(this.sector);
-		prof.setTitle(titleRepo.getOne(id));
-		return prof;
+		Optional<Title> title = titleRepo.findById(this.idTitle);
+		if (title.isPresent()) {
+			prof.setName(this.name);
+			prof.setArea(this.area);
+			prof.setSector(this.sector.toString());
+			prof.setTitle(title.get());
+			return prof;
+		}
+		return null;
 	}
 }

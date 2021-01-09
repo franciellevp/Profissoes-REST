@@ -25,11 +25,12 @@ public class Profession {
 		super();
 	}
 
-	public Profession(String name, String area, Title title) {
+	public Profession(String name, String area, Title title, String sector) {
 		super();
 		this.name = name;
 		this.area = area;
 		this.title = title;
+		this.sector = SectorProfession.valueOf(sector);
 	}
 
 	@Override
@@ -85,8 +86,8 @@ public class Profession {
 		return sector;
 	}
 
-	public void setSector(SectorProfession sector) {
-		this.sector = sector;
+	public void setSector(String sector) {
+		this.sector = SectorProfession.valueOf(sector);
 	}
 
 	public Title getTitle() {
